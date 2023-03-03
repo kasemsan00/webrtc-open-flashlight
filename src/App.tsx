@@ -26,7 +26,6 @@ function App() {
                 });
         }
     };
-
     return (
         <div className="App">
             <button onClick={openFlashLight}>On/off</button>
