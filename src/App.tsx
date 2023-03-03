@@ -15,8 +15,11 @@ function App() {
                     // @ts-ignore
                     videoRef.current.srcObject = stream;
                     const track = stream.getVideoTracks()[0];
+                    // @ts-ignore
                     await track.applyConstraints({ torch: true });
+                    // @ts-ignore
                     console.log(track.getSettings().torch); // true
+                    console.log(track.getSettings());
                 })
                 .catch((err) => {
                     console.log(err);
