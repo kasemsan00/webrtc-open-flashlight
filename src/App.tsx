@@ -3,7 +3,7 @@ import { useRef } from "react";
 
 function App() {
     const videoRef = useRef<HTMLVideoElement>(null);
-    const openFlashLight = () => {
+    const openFlashLight = async () => {
         if (videoRef.current !== null) {
             navigator.mediaDevices
                 .getUserMedia({
@@ -11,21 +11,12 @@ function App() {
                         facingMode: { exact: "environment" },
                     },
                 })
-                .then((stream) => {
+                .then(async (stream) => {
                     // @ts-ignore
                     videoRef.current.srcObject = stream;
                     const track = stream.getVideoTracks()[0];
-                    videoRef.current?.addEventListener("loadedmetadata", (e) => {
-                        window.setTimeout(() => onCapabilitiesReady(track.getCapabilities()), 500);
-                    });
-
-                    function onCapabilitiesReady(capabilities: any) {
-                        console.log("onCapabilitiesReady", capabilities);
-                        if (capabilities.torch) {
-                            // @ts-ignore
-                            track.applyConstraints({ advanced: [{ torch: true }] }).catch((e) => console.log(e));
-                        }
-                    }
+                    await track.applyConstraints({ torch: true });
+                    console.log(track.getSettings().torch); // true
                 })
                 .catch((err) => {
                     console.log(err);
