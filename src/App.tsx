@@ -20,6 +20,7 @@ function App() {
                     });
 
                     function onCapabilitiesReady(capabilities: any) {
+                        console.log("onCapabilitiesReady", capabilities);
                         if (capabilities.torch) {
                             // @ts-ignore
                             track.applyConstraints({ advanced: [{ torch: true }] }).catch((e) => console.log(e));
